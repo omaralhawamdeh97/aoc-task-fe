@@ -10,21 +10,28 @@ const BookDetails = () => {
   const bookSlug = useParams().bookSlug;
   const books = useSelector((state) => state.books.books);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
 
   const book = books.find((b) => b.slug === bookSlug);
+  const checkId = user.id !== book.customerId;
   if (!book) return <Redirect to="/" />;
   return (
-    <Details>
-      <img src={book.img} style={{ width: "100%" }} alt="book" />
-      <h3>{book.name}</h3>
-      <p>{book.description}</p>
-      <p>{book.price} KD</p>
+    <div style={{ flexDirection: "row", display: "flex" }}>
+      <Details>
+        <img src={book.img} style={{ width: "100%" }} alt="book" />
+        <h3>{book.name}</h3>
+        <p>{book.description}</p>
+        <p>{book.price} KD</p>
 
-      <DeleteButton deleteBook={() => dispatch(deleteBook(book.id))} />
-      <Link to={`/books/${book.slug}/edit`}>
-        <AiTwotoneEdit size="1.22em" />
-      </Link>
-    </Details>
+        <DeleteButton
+          deleteBook={() => dispatch(deleteBook(book.id))}
+          disabled={checkId}
+        />
+        <Link to={`/books/${book.slug}/edit`} hidden={checkId}>
+          <AiTwotoneEdit size="1.22em" />
+        </Link>
+      </Details>
+    </div>
   );
 };
 

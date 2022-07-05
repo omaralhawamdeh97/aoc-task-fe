@@ -1,99 +1,94 @@
 import React from "react";
-import { useCart } from "react-use-cart";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItemToCart,
+  checkOut,
+  clearCart,
+  decreaseItemInCart,
+  deletetemFromCart,
+  increaseItemInCart,
+} from "../store/actions/cartActions";
+import { Button, Item } from "../styles";
 
 const Cart = () => {
-  const {
-    isEmpty,
-    totalUniqueItems,
-    items,
-    totalItems,
-    cartTotal,
-    updateItemQuantity,
-    removeItem,
-    emptyCart,
-  } = useCart();
+  const cart = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
+  let arrayOfBooks = cart.map((book) => (
+    <Item>
+      <img src={book.img} alt="books" />
+      <h3>{book.name}</h3>
+      <p>{book.price} JD</p>
+      {book.quantity ? (
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <Button
+            onClick={() => dispatch(decreaseItemInCart(book))}
+            disabled={book.quantity <= 1}
+            style={{ width: 22, margin: 7 }}
+          >
+            -
+          </Button>
+          <p style={{ paddingTop: 12 }}>{book.quantity}</p>
 
-  const buy = () => {
-    alert("تمت العملية بنجاح...");
+          <Button
+            onClick={() => dispatch(increaseItemInCart(book))}
+            style={{ width: 22, margin: 7 }}
+          >
+            +
+          </Button>
+          <Button
+            onClick={() => dispatch(deletetemFromCart(book))}
+            style={{ margin: 7 }}
+          >
+            remove from cart
+          </Button>
+        </div>
+      ) : (
+        <Button onClick={() => dispatch(addItemToCart(book))}>
+          add to cart
+        </Button>
+      )}
+    </Item>
+  ));
+
+  //clear cart
+  const clearItems = () => {
+    console.log("first");
+    dispatch(clearCart());
   };
-  console.log("entered");
 
-  if (isEmpty) return <h1 className="text-center"> Your cart isEmpty </h1>;
+  //checkout
+  const buy = () => {
+    if (alert("are you sure to checkout ?")) dispatch(checkOut(cart));
+  };
+
+  let totalPrice = 0;
+  cart.forEach((item) => (totalPrice += item.price * item.quantity));
+
+  if (cart.length === 0)
+    return <h1 className="text-center"> Your cart isEmpty </h1>;
 
   return (
-    <section className="container">
-      <div className="row jistufy-content-center">
-        <div className="col-12">
-          <h5>
-            {" "}
-            Cart ({totalUniqueItems}) total Item :({totalItems})
-          </h5>
-          <table className="table table-light m-0">
-            <tbody>
-              {items.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td>
-                      <img
-                        src={item.img}
-                        style={{ height: "6rem" }}
-                        alt="img"
-                      />
-                    </td>
+    <div
+      style={{
+        justifyContent: "center",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Button style={{ alignSelf: "center" }} onClick={clearItems}>
+        Clear All
+      </Button>
+      <div style={{ display: "flex" }}>{arrayOfBooks}</div>
 
-                    <td>{item.title}</td>
-
-                    <td>{item.price}</td>
-
-                    <td>Quantity({item.quantity})</td>
-
-                    <td>
-                      <button
-                        onClick={() =>
-                          updateItemQuantity(item.id, item.quantity - 1)
-                        }
-                        className="btn btn-info ms-2"
-                      >
-                        {" "}
-                        -{" "}
-                      </button>
-                      <button
-                        onClick={() =>
-                          updateItemQuantity(item.id, item.quantity + 1)
-                        }
-                        className="btn btn-info ms-2"
-                      >
-                        {" "}
-                        +{" "}
-                      </button>
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="btn btn-danger ms-2"
-                      >
-                        {" "}
-                        RemoveItem{" "}
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          <div className="col-auto ms-auto">
-            <h2> total price: {cartTotal} EGP</h2>
-          </div>
-        </div>
-        <div className="col-auto mb-2">
-          <button onClick={() => emptyCart()} className="btn btn-danger ms-2">
-            Clear Cart
-          </button>
-          <button onClick={buy} className="btn btn-primary ms-2">
-            Buy Now{" "}
-          </button>
-        </div>
-      </div>
-    </section>
+      <p style={{ alignSelf: "center" }}>Total:{totalPrice} JD</p>
+      <Button style={{ alignSelf: "center" }} onClick={buy}>
+        Check out
+      </Button>
+    </div>
   );
 };
 

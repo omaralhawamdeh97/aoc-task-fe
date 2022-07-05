@@ -66,10 +66,9 @@ export const List = styled.div`
 
 export const Item = styled.div`
   width: 250px;
-  height: 505px;
-  position: relative;
+  height: auto;
   border-radius: 8px;
-  margin-bottom: 30px;
+  margin: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,7 +76,6 @@ export const Item = styled.div`
   img {
     padding-inline: 2px;
     width: 100%;
-    margin-top: 8px;
     height: 32vh;
   }
   h3 {
@@ -86,14 +84,6 @@ export const Item = styled.div`
   }
   .desc {
     padding: 10px;
-  }
-  button {
-    top: 84%;
-    position: absolute;
-  }
-  p {
-    top: 80%;
-    position: absolute;
   }
 `;
 
@@ -126,7 +116,7 @@ export const SearchBarStyled = styled.input`
 export const Details = styled.div`
   padding: 10px;
   width: 30%;
-  margin: auto;
+
   margin-top: 20px;
   border-radius: 8px;
   text-align: center;

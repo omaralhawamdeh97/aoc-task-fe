@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { AddBookDiv, Button } from "../styles";
+import { AddBookDiv, Button } from "../../styles";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { signIn } from "../store/actions/authActions";
+import { signup } from "../../store/actions/authActions";
 
-function SignIn() {
+function SignUp() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [user, setUser] = useState();
@@ -15,12 +15,12 @@ function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(signIn(user, history));
+    dispatch(signup(user, history));
   };
   return (
     <form onSubmit={handleSubmit}>
       <AddBookDiv>
-        <h2>Sign in </h2>
+        <h2>Sign up </h2>
         <input
           onChange={handleChange}
           type="text"
@@ -33,10 +33,10 @@ function SignIn() {
           name="password"
           placeholder="enter password"
         />
-        <Button type="submit"> Enter</Button>
+        <Button type="submit"> Submit</Button>
       </AddBookDiv>
     </form>
   );
 }
 
-export default SignIn;
+export default SignUp;

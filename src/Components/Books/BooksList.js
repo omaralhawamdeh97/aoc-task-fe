@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Book from "./Book";
-import { List } from "../../styles";
+import { Button, List } from "../../styles";
 import SearchBar from "../SearchBar";
+import { Link } from "react-router-dom";
 
 const BooksList = (props) => {
   const [query, setQuery] = useState("");
@@ -19,9 +20,20 @@ const BooksList = (props) => {
 
   console.log("hello BOOKS LIST");
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <SearchBar setQuery={setQuery} />
-      <List>{arrayOfBooks}</List>
+      <List
+        style={{
+          WebkitOverflowScrolling: "auto",
+          whiteSpace: "-moz-initial",
+          width: "100%",
+        }}
+      >
+        {arrayOfBooks}
+      </List>
+      <Link to={"/books/new"} style={{ alignSelf: "center" }}>
+        <Button>New Item</Button>
+      </Link>
     </div>
   );
 };

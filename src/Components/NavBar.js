@@ -34,6 +34,9 @@ const NavBar = (props) => {
             <>
               <h3>Hello {user.username} </h3>
               <Button onClick={handleSignOut}> Sign out</Button>
+              <Link to="/cart">
+                <Button>Cart</Button>
+              </Link>
             </>
           ) : (
             <>

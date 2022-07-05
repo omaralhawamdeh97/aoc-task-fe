@@ -4,8 +4,8 @@ import AddBook from "./Books/AddBook";
 import BooksList from "./Books/BooksList";
 import BookDetails from "./Books/BookDetails";
 import Home from "./Home";
-import SignUp from "./SignUp";
-import SignIn from "./SignIn";
+import SignUp from "../Components/authScreens/SignUp";
+import SignIn from "../Components/authScreens/SignIn";
 import Cart from "./Cart";
 
 function Routes({ books }) {
